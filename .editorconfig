@@ -1,0 +1,36 @@
+# EditorConfig es compatible con versiones de Visual Studio 2017 y posteriores
+root = true
+
+# Configuración global
+[*]
+indent_style = space
+indent_size = 4
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# Configuración específica para archivos C#
+[*.cs]
+# Usar espacios en lugar de tabulaciones
+indent_style = space
+# Tamaño de la indentación
+indent_size = 4
+# Insertar una nueva línea al final del archivo
+insert_final_newline = true
+# Eliminar espacios en blanco al final de las líneas
+trim_trailing_whitespace = true
+# Estilo de llaves
+csharp_new_line_before_open_brace = all
+# Espacios alrededor de operadores binarios
+csharp_space_around_binary_operators = before_and_after
+# Espacios después de comas
+csharp_space_after_comma = true
+# Espacios después de palabras clave de control
+csharp_space_after_keywords_in_control_flow_statements = true
+# Espacios dentro de paréntesis
+csharp_space_between_parentheses = false
+# Colocar llaves en una nueva línea para métodos, tipos y propiedades
+csharp_new_line_before_open_brace = methods, types, properties
+# Colocar llaves en la misma línea para todo lo demás
+csharp_new_line_before_open_brace = none

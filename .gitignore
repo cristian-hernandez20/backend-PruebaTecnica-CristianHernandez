@@ -1,0 +1,59 @@
+# Carpeta de salida de compilación
+/bin/
+/obj/
+
+# Carpeta temporal de herramientas de compilación
+/.dotnet/
+
+# Archivos de configuración local (por ejemplo, para Visual Studio)
+.vscode/
+*.suo
+*.user
+*.sln.docstates
+
+#/Migrations/
+*bin
+
+*.vs
+.vs/
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.dll
+*.exe
+# Archivos de caché y dependencias
+.nuget/
+project.lock.json
+global.json
+
+# Carpeta de paquetes NuGet restaurados
+/packages/
+
+# Logs y archivos temporales
+*.log
+*.vspscc
+*.vssscc
+.vscode/
+.vs
+
+# Archivos de compilación y configuración de herramientas
+/app.config
+/Web.config
+
+# Archivos de configuración de pruebas
+/test-results/
+
+# Archivos de análisis de código
+*.StyleCop
+*.*proj.user
+
+# Otros archivos específicos del entorno
+[Tt]humbs.db
+desktop.ini
+
+# Ignorar archivos de configuración local de .NET
+
+*.*Development.json
+*appsettings.json
