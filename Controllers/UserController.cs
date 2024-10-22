@@ -19,6 +19,23 @@ namespace ruleta.Controllers {
                 Data = users
             });
         }
+
+        [HttpGet("get-user")]
+        public async Task<ActionResult<ServiceResponse<User>>> GetUser([FromQuery] string Name) {
+            ServiceResponse<User> response = new();
+            var user = await _userServices.GetUser(Name);
+
+            if (user == null) {
+                response.Success = false;
+                response.Message = $"No existen usuario con el nombre {Name}";
+            }
+
+            return Ok(new ServiceResponse<User> {
+                Success = true,
+                Data = user
+            });
+        }
+
         [HttpPost("create-user")]
         public async Task<ActionResult<ServiceResponse<User>>> CreateUser([FromBody] SaveUserDto userCreate) {
 

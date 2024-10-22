@@ -1,6 +1,7 @@
 namespace Services {
     public interface IUserServices {
         Task<User> CreateUser(SaveUserDto userCreate);
+        Task<User> GetUser(string Name);
         Task<List<User>> GetUsers();
     }
 
@@ -15,6 +16,15 @@ namespace Services {
                 var dbUsers = await _context.User.ToListAsync();
                 response = dbUsers;
                 return response;
+            }
+            catch (Exception) { throw; }
+        }
+        public async Task<User> GetUser(string Name) {
+            ArgumentNullException.ThrowIfNull(Name);
+            try {
+                User userDb = await _context.User
+                    .FirstOrDefaultAsync(u => u.Name.ToLower().Equals(Name.ToLower()));
+                return userDb;
             }
             catch (Exception) { throw; }
         }

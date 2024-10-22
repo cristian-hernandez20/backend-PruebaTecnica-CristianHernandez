@@ -8,4 +8,9 @@ namespace Interfaces {
         [Column(TypeName = "decimal(16, 2)"),]
         public decimal Credit { get; set; }
     }
+
+    public class UserBetDto : ResultRandomDtos {
+        public decimal BetAmount { get; set; }
+        public bool IsEven { get; set; }
+    }
 }

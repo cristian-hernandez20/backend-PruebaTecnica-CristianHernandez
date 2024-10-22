@@ -25,7 +25,6 @@ namespace ruleta {
 
             ConfigureCors(services);
             ConfigureDatabase(services);
-            ConfigureAuthentication(services);
             ConfigureScopedServices(services);
 
             services.AddControllers().AddJsonOptions(x =>
@@ -36,8 +35,6 @@ namespace ruleta {
             services.AddMemoryCache();
             services.AddHttpContextAccessor();
             services.AddAutoMapper(typeof(Startup));
-
-            services.AddSignalR();
 
             /*  50 MB in bytes */
             services.Configure<KestrelServerOptions>(options => { options.Limits.MaxRequestBodySize = 50 * 1024 * 1024; });
@@ -55,20 +52,15 @@ namespace ruleta {
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
             });
         }
-        private void ConfigureAuthentication(IServiceCollection services) {
-            var token_value = Configuration.GetSection("AppSettings:Token").Value;
-        }
         private static void ConfigureScopedServices(IServiceCollection services) {
             ConfigureGeneralesServices(services);
-            ConfigureGeneralesMapping(services);
+            ConfigureGeneralesMappers(services);
         }
         private static void ConfigureGeneralesServices(IServiceCollection services) {
-            /* Services */
-            services.AddScoped<IUserServices, UserServices>();
             services.AddScoped<IResultServices, ResultServices>();
+            services.AddScoped<IUserServices, UserServices>();
         }
-        private static void ConfigureGeneralesMapping(IServiceCollection services) {
-            /* Mappers */
+        private static void ConfigureGeneralesMappers(IServiceCollection services) {
             services.AddAutoMapper(typeof(UserMap));
         }
 
@@ -97,10 +89,9 @@ namespace ruleta {
                 }
                 else {
                     context.Response.StatusCode = 404;
-                    await context.Response.WriteAsync("Ruta no encontrada");
+                    await context.Response.WriteAsync("No found route");
                 }
-            }
-            );
+            });
         }
     }
 }
