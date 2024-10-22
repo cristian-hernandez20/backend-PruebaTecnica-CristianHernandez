@@ -19,7 +19,8 @@ namespace ruleta.Controllers {
             var results = _resultServices.ProcessResults(userBet, randomResult);
             return Ok(new ServiceResponse<ResultDtos> {
                 Success = true,
-                Data = results
+                Data = results,
+                Message = $"El monto apostado fue {results.BetAmount}, el monto ganado fue {results.Reward}"
             });
         }
 

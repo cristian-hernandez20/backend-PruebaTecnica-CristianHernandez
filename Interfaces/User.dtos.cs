@@ -11,6 +11,6 @@ namespace Interfaces {
 
     public class UserBetDto : ResultRandomDtos {
         public decimal BetAmount { get; set; }
-        public bool IsEven { get; set; }
+        public bool? IsEven { get; set; }
     }
 }

@@ -16,7 +16,8 @@ namespace Services {
                 int numberRandom = random.Next(0, 36);
                 responseResult.Number = numberRandom;
 
-                responseResult.Color = numberRandom % 2 == 0 ? "black" : "red";
+                string[] colors = ["red", "black"];
+                responseResult.Color = colors[random.Next(colors.Length)];
                 return responseResult;
             }
             catch (Exception) { throw; }
@@ -28,13 +29,17 @@ namespace Services {
                 decimal reward = 0m;
 
                 //  Verificar si el usuario apostó al número y al color correcto
-                if (userBet.Number == randomResult.Number && userBet.Color == randomResult.Color) { reward = userBet.BetAmount * 3; }
+                if (userBet.Number.HasValue && userBet.Number == randomResult.Number && userBet.Color == randomResult.Color) { reward = userBet.BetAmount * 3; }
 
                 // Verificar si el usuario apostó al color correcto
-                else if (userBet.Color == randomResult.Color) { reward = userBet.BetAmount * 0.5m; }
+                else if (!userBet.IsEven.HasValue && userBet.Color == randomResult.Color) { reward = userBet.BetAmount * 0.5m; }
 
                 // Verificar si el usuario apostó a pares o impares del color correcto
-                else if (userBet.IsEven && userBet.Color == randomResult.Color && ((userBet.IsEven && randomResult.Number % 2 == 0) || (!userBet.IsEven && randomResult.Number % 2 != 0))) {
+
+
+                else if (userBet.IsEven.HasValue && userBet.Color == randomResult.Color
+                    && ((userBet.IsEven.Value && randomResult.Number % 2 == 0)
+                    || (!userBet.IsEven.Value && randomResult.Number % 2 != 0))) {
                     reward = userBet.BetAmount;
                 }
 
