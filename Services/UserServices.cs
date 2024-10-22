@@ -39,7 +39,7 @@ namespace Services {
                 User userMapper = null;
 
                 if (existingUser != null) {
-                    existingUser.Credit += userCreate.Credit;
+                    existingUser.Credit = userCreate.Credit;
                     _context.Update(existingUser);
                 }
                 else {

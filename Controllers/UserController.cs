@@ -22,12 +22,13 @@ namespace ruleta.Controllers {
 
         [HttpGet("get-user")]
         public async Task<ActionResult<ServiceResponse<User>>> GetUser([FromQuery] string Name) {
-            ServiceResponse<User> response = new();
             var user = await _userServices.GetUser(Name);
 
             if (user == null) {
-                response.Success = false;
-                response.Message = $"No existen usuario con el nombre {Name}";
+                return StatusCode(201, new ServiceResponse<User> {
+                    Success = false,
+                    Message = $"No existen usuario con el nombre {Name}"
+                });
             }
 
             return Ok(new ServiceResponse<User> {
@@ -50,7 +51,8 @@ namespace ruleta.Controllers {
 
             return Ok(new ServiceResponse<User> {
                 Success = true,
-                Data = response
+                Data = response,
+                Message = $"Usuario {userCreate.Name} registrado correctamente."
             });
         }
     }
