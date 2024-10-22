@@ -15,6 +15,7 @@ global using Mappers;
 global using Models;
 
 using Middlewares;
+using System.Net;
 
 namespace ruleta {
     public class Startup(IConfiguration configuration) {
@@ -40,10 +41,17 @@ namespace ruleta {
             services.Configure<KestrelServerOptions>(options => { options.Limits.MaxRequestBodySize = 50 * 1024 * 1024; });
         }
         private void ConfigureCors(IServiceCollection services) {
+
+            string server_ip = GetLocalIPAddress();
             services.AddCors(options => {
                 options.AddPolicy("AllowAnyOrigin", builder => {
-                    builder.WithOrigins(Configuration.GetSection("IpAccess").Get<string[]>())
-                        .AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+                    var allowed_origins = Configuration.GetSection("IpAccess").Get<string[]>();
+                    var origins = new List<string>(allowed_origins)
+                    {
+                        $"http://{server_ip}:8080", $"http://{server_ip}",
+                        $"https://{server_ip}:8080", $"https://{server_ip}"
+                    };
+                    builder.WithOrigins([.. origins]).AllowAnyMethod().AllowAnyHeader().AllowCredentials();
                 });
             });
         }
@@ -92,6 +100,15 @@ namespace ruleta {
                     await context.Response.WriteAsync("No found route");
                 }
             });
+        }
+        private static string GetLocalIPAddress() {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList) {
+                if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork) {
+                    return ip.ToString();
+                }
+            }
+            throw new Exception("No se pudo encontrar la dirección IP local.");
         }
     }
 }
