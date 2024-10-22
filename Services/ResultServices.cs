@@ -1,22 +1,22 @@
 namespace Services {
     public interface IResultServices {
 
-        ResultRandomDtos GenerateRandomResult();
+        Task<ResultRandomDtos> GenerateRandomResult();
         ResultDtos ProcessResults(UserBetDto userBet, ResultRandomDtos randomResult);
 
     }
     public class ResultServices() : IResultServices {
 
-        public ResultRandomDtos GenerateRandomResult() {
+        public async Task<ResultRandomDtos> GenerateRandomResult() {
             try {
+                await Task.Delay(3000);
                 ResultRandomDtos responseResult = new();
                 Random random = new();
 
                 int numberRandom = random.Next(0, 36);
                 responseResult.Number = numberRandom;
 
-                string[] colors = ["red", "black"];
-                responseResult.Color = colors[random.Next(colors.Length)];
+                responseResult.Color = numberRandom % 2 == 0 ? "black" : "red";
                 return responseResult;
             }
             catch (Exception) { throw; }

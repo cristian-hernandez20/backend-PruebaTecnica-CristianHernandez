@@ -5,9 +5,9 @@ namespace ruleta.Controllers {
         private readonly IResultServices _resultServices = ResultServices;
 
         [HttpGet("ramdom-result")]
-        public ActionResult<ServiceResponse<ResultRandomDtos>> GenerateRandomResult() {
+        public async Task<ActionResult<ServiceResponse<ResultRandomDtos>>> GenerateRandomResult() {
 
-            var results = _resultServices.GenerateRandomResult();
+            var results = await _resultServices.GenerateRandomResult();
             return Ok(new ServiceResponse<ResultRandomDtos> {
                 Success = true,
                 Data = results
